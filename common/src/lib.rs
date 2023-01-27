@@ -482,7 +482,8 @@ pub fn switch_to_kernel(
     } = page_tables;
     let addresses = Addresses {
         page_table: kernel_level_4_frame,
-        stack_top: mappings.stack_end.start_address(),
+        // rust-osdev/bootloader#294: Last page of stack memory is not used
+        stack_top: (mappings.stack_end + 1).start_address(),
         entry_point: mappings.entry_point,
         boot_info,
     };
